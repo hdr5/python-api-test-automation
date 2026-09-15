@@ -1,11 +1,11 @@
 from fastapi import FastAPI, status
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 app = FastAPI()
 
 class UserCreate(BaseModel):
     name: str
-    email: str
+    email: EmailStr
 
 users = [
         {"id": 1, "name": "David", "email": "david@example.com"},

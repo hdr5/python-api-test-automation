@@ -60,3 +60,40 @@ def test_get_users():
     assert isinstance(users, list)
     assert users[0]["name"] == "David"
     assert users[1]["email"] == "sarah@example.com"
+
+def test_create_user_missing_email():
+    payload = {
+        "name": "Test User"
+    }
+
+    response = requests.post(
+        BASE_URL + "/users",
+        json=payload
+    )
+
+    assert response.status_code == 422
+
+def test_create_user_missing_name():
+    payload = {
+        "email": "test@example.com"
+    }
+
+    response = requests.post(
+        BASE_URL + "/users",
+        json=payload
+    )
+
+    assert response.status_code == 422
+
+def test_create_user_invalid_email():
+    payload = {
+        "name": "Test User",
+        "email": "invalid-email"
+    }
+
+    response = requests.post(
+        BASE_URL + "/users",
+        json=payload
+    )
+
+    assert response.status_code == 422
