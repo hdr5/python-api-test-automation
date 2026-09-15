@@ -41,6 +41,10 @@ def test_create_get_and_delete_user():
 
     assert delete_response.status_code == 200
 
+    delete_result = delete_response.json()
+
+    assert delete_result["message"] == "User deleted"
+
     # Verify user was deleted
     get_response = requests.get(BASE_URL + "/users")
 
@@ -97,3 +101,15 @@ def test_create_user_invalid_email():
     )
 
     assert response.status_code == 422
+
+
+def test_delete_non_existing_user():
+    response = requests.delete(
+        BASE_URL + "/users/9999"
+    )
+
+    assert response.status_code == 404
+
+    error_response = response.json()
+
+    assert error_response["detail"] == "User not found"
